@@ -1,3 +1,5 @@
+package CCWebcrawler;
+
 import java.util.List;
 
 public class MarkDownGenerator {
@@ -20,7 +22,7 @@ public class MarkDownGenerator {
     }
 
     private void addCrawledWebsite(Website website, int depth) {
-        addHeadings(website.getWebsiteHeadings(), depth);
+        addHeadings(website.getHeadings(), depth);
         addLinks(website.getLinks(), depth);
         this.markDownString += "\n";
     }

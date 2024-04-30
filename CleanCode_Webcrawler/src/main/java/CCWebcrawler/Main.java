@@ -1,9 +1,9 @@
+package CCWebcrawler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.util.List;
 
 public class Main {
 
@@ -13,24 +13,25 @@ public class Main {
         String url = readAndValidateURL();
         int depth = readAndValidateDepth();
 
-        HtmlParser parser = new HtmlParser();
+        JsoupParserAdapter parser = new JsoupParserAdapter();
+        Crawler crawler = new Crawler(url, depth, parser);
 
         try{
-           Elements e =  parser.getHeadings(url);
-            for(Element elem : e)
-                printElementInfos(elem);
+           Website crawledSite = crawler.getResults();
+
+           MarkDownGenerator markDownGenerator = new MarkDownGenerator();
+           List<Website> allCrawledSubSites = crawledSite.getAllCrawledSubSites().toList();
+
+
+           String markDown =  markDownGenerator
+                   .generateMarkDown(crawledSite.getUrl(), depth,allCrawledSubSites);
+            System.out.println(markDown);
+
 
         }catch(IOException e){
                 System.err.println(e.getMessage());
         }
 
-    }
-
-
-    private static void printElementInfos(Element node){
-        System.out.println("\nNode found in Website: "+ node.toString());
-        System.out.println("TagName: "+ node.tagName());
-        System.out.println("InnerHTML "+ node.text());
     }
 
     private static String readAndValidateURL(){
@@ -49,6 +50,7 @@ public class Main {
             System.err.println("Invalid URL. Please provide a valid URL: \n ");
 
         return false;
+
     }
 
     private static int readAndValidateDepth(){
@@ -82,6 +84,7 @@ public class Main {
         }
         return var;
     }
+
 
 
     private static boolean isNumeric(String str) {

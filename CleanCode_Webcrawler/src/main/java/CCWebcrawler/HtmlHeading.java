@@ -1,20 +1,22 @@
+package CCWebcrawler;
+
 public class HtmlHeading {
 
     HtmlHeadingLevel level;
 
     String content = "";
 
-    HtmlHeading(String tag, String content){
+    public HtmlHeading(String tag, String content){
         this.level = HtmlHeadingLevel.createFromString(tag);
         this.content = content;
     }
 
-    HtmlHeading(HtmlHeadingLevel level, String content){
+    public HtmlHeading(HtmlHeadingLevel level, String content){
         this.level = level;
         this.content = content;
     }
 
-    HtmlHeading(int headingLevel, String content){
+   public HtmlHeading(int headingLevel, String content){
 
         this.level =  HtmlHeadingLevel.isValidHtmlHeadingLevel(headingLevel) ?
                  HtmlHeadingLevel.createFromInt(headingLevel) : HtmlHeadingLevel.getDefaultLevel();

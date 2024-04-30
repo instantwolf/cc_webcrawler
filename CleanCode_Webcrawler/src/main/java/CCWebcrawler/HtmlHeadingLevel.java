@@ -1,3 +1,5 @@
+package CCWebcrawler;
+
 public enum HtmlHeadingLevel {
     H1(1),
     H2(2),
@@ -14,8 +16,8 @@ public enum HtmlHeadingLevel {
 
 
 
-    public static HtmlHeadingLevel createFromString(String headinglevel) {
-        String level = headinglevel.toLowerCase();
+    public static HtmlHeadingLevel createFromString(String headingLevel) {
+        String level = headingLevel.toLowerCase();
         return
                 switch (level) {
                     case "h1" -> createFromInt(1);
@@ -24,7 +26,7 @@ public enum HtmlHeadingLevel {
                     case "h4" -> createFromInt(4);
                     case "h5" -> createFromInt(5);
                     case "h6" -> createFromInt(6);
-                    default -> throw new IllegalStateException("Unexpected value: " + level);
+                    default -> HtmlHeadingLevel.getDefaultLevel();
                 };
     }
 
