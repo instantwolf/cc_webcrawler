@@ -19,6 +19,14 @@ public class Website {
 
     }
 
+    public List<HtmlHeading> getWebsiteHeadings() {
+        return this.headings;
+    }
+
+    public List<String> getLinks() {
+        return this.links;
+    }
+
 
     public void addHeading(String headingTag, String content){
         HtmlHeading new = new HtmlHeading(headingTag,content);
