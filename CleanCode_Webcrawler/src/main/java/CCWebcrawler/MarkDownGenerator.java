@@ -3,60 +3,71 @@ package CCWebcrawler;
 import java.util.List;
 
 public class MarkDownGenerator {
-    private String markDownString;
 
-    public MarkDownGenerator() {
-        markDownString = "";
+    private static final String MARKDOWN_HEADER_TEMPLATE = """
+                                                            input: <a>" {$1} "</a>
+                                                            <br>depth: {$2}
+                                                            <br>summary:
+                                                            """;
+
+    private static final String LINK_MARKDOWN_TEMPLATE = """
+                                                         <br> {$1} {$2} <a>{$3}</a>
+                                                         """;
+
+    private static final String HEADER_MARKDOWN_TEMPLATE =  """
+                                                            {$1} {$2} {$3}
+                                                            """;
+
+    public static String generateMarkDownForWebsite(String inputUrl, int targetDepth, Website website) {
+        String result = "";
+
+        if(website.depth == 0)
+            result = result.concat(generateMarkDownIntro(inputUrl, targetDepth));
+
+        result = result.concat(generateHeadingMarkdown(website.getHeadings(), website.depth));
+        result = result.concat(generateLinksMarkdown(website.getLinks(), targetDepth));
+        return result;
     }
 
-    public String generateMarkDown(String inputUrl, int targetDepth, List<Website> crawledWebsites) {
-        generateHeader(inputUrl, targetDepth);
-        addCrawledWebsites(crawledWebsites);
-        return this.markDownString;
-    }
-
-    private void addCrawledWebsites(List<Website> crawledWebsites) {
-        for (Website website : crawledWebsites) {
-            addCrawledWebsite(website, 0); // todo: evaluate depth
-        }
-    }
-
-    private void addCrawledWebsite(Website website, int depth) {
-        addHeadings(website.getHeadings(), depth);
-        addLinks(website.getLinks(), depth);
-        this.markDownString += "\n";
-    }
-
-    private void addHeadings(List<HtmlHeading> headings, int depth) {
-        String headingPrefix = "";
+    private static String generateHeadingMarkdown(List<HtmlHeading> headings, int depth) {
         String depthPrefix = getDepthPrefix(depth);
-        for (HtmlHeading heading : headings) {
-            headingPrefix = getHeadingPrefix(heading.getHeadingLevelInt());
-            this.markDownString += "\n";
-            this.markDownString += headingPrefix + depthPrefix;
-            this.markDownString += heading.getContent();
-        }
+        String result = "";
+
+        for (HtmlHeading heading : headings)
+            result = result.concat(HEADER_MARKDOWN_TEMPLATE
+                                    .replace("{$1}", getHeadingPrefix(heading.getHeadingLevelInt()))
+                                    .replace("{$2}", depthPrefix)
+                                    .replace("{$3}", heading.content)
+            );
+
+        return result;
     }
 
-    private void addLinks(List<String> links, int depth) {
+    private static String generateLinksMarkdown(List<Link> links, int depth) {
         String depthPrefix = getDepthPrefix(depth);
-        for (String link : links) {
-            this.markDownString += "\n";
-            this.markDownString += "<br>" + depthPrefix + " <a>" + link + "</a>"; // todo: + broken link / link to
-        }
+        String result = "";
+        for (Link link : links)
+            result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
+        return result;
     }
 
-    private String getHeadingPrefix(int level) {
+    private static String getHeadingPrefix(int level) {
         return "#".repeat(level);
     }
 
-    private String getDepthPrefix(int depth) {
+    private static String getDepthPrefix(int depth) {
         String prefix = "--".repeat(depth);
-        return (prefix.length() == 0 ? prefix : prefix + ">");
+        return (prefix.isEmpty() ? prefix : prefix + ">");
     }
-    private void generateHeader(String inputUrl, int targetDepth) {
-        this.markDownString += "input: <a>" + inputUrl + "</a>\n";
-        this.markDownString += "<br> depth" + targetDepth + "\n";
-        this.markDownString += "<br> summary:\n";
+
+    private static String insertValuesToLinkTemplate(String depthPrefix, Link link){
+        String linkTextPrefix = link.broken ? "broken link" : "link to";
+        return LINK_MARKDOWN_TEMPLATE.replace("{$1}", depthPrefix)
+                                        .replace("{$2}", linkTextPrefix)
+                                        .replace("{$3}", link.url);
+    }
+
+    private static String generateMarkDownIntro(String inputUrl, int targetDepth) {
+        return MARKDOWN_HEADER_TEMPLATE.replace("{$1}", inputUrl).replace("{$2}", String.valueOf(targetDepth));
     }
 }

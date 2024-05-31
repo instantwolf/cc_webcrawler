@@ -57,16 +57,16 @@ public class Crawler {
     }
 
 
-    private ArrayList<Website> crawlPages(ArrayList<String> urls, int depth) throws IOException{
+    private ArrayList<Website> crawlPages(ArrayList<Link> links, int depth) throws IOException{
         ArrayList<Website> results = new ArrayList<>();
-        for(String url : urls)
-            results.add(crawlPage(url,depth));
+        for(Link link : links)
+            results.add(crawlPage(link.toString(),depth));
         return results;
     }
 
     private Website crawlPage(String url, int depth) throws IOException {
         ArrayList<HtmlHeading> headings = parser.getHeadings(url);
-        ArrayList<String> links = parser.getLinks(url);
+        ArrayList<Link> links = parser.getLinks(url).stream().map(Link::new).collect(Collectors.toCollection(ArrayList::new));
         return new Website(url,links,headings,depth);
     }
 

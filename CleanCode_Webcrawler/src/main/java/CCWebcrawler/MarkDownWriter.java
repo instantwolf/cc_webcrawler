@@ -3,22 +3,25 @@ package CCWebcrawler;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class MarkDownWriter {
-    private MarkDownGenerator generator = new MarkDownGenerator();
-    private String content = "";
 
-    private static String filePath = "output.md";
-
-    public void printToMDFile(String inputUrl, int targetDepth, List<Website> crawledWebsites) {
-        content = generator.generateMarkDown(inputUrl, targetDepth, crawledWebsites);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(content);
+    public static void printMarkDownToFile(String markdown) {
+        String fileName = generateMarkDownFileName();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(markdown);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String generateMarkDownFileName(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedTime = formatter.format(now);
+        return formattedTime + "crawling-report.md";
     }
 }

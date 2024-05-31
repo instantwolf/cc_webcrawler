@@ -19,12 +19,11 @@ public class Main {
         try{
            Website crawledSite = crawler.getResults();
 
-           MarkDownGenerator markDownGenerator = new MarkDownGenerator();
            List<Website> allCrawledSubSites = crawledSite.getAllCrawledSubSites().toList();
 
 
-           String markDown =  markDownGenerator
-                   .generateMarkDown(crawledSite.getUrl(), depth,allCrawledSubSites);
+           String markDown =  MarkDownGenerator.generateMarkDownForWebsite(
+                                crawledSite.getUrl(), depth,crawledSite);
             System.out.println(markDown);
 
 

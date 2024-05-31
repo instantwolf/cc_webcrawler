@@ -9,7 +9,7 @@ public class Website {
 
     private final String url;
 
-    private final ArrayList<String> links;
+    private final ArrayList<Link> links;
 
     private final ArrayList<HtmlHeading> headings;
 
@@ -19,9 +19,9 @@ public class Website {
 
 
 
-    public Website(String url, ArrayList<String> links, ArrayList<HtmlHeading> headings, int depth){
+    public Website(String url, ArrayList<Link> links, ArrayList<HtmlHeading> headings, int depth){
         this.url = url;
-        this.links = links;
+        this.links = new ArrayList<>();
         this.headings = headings;
         this.depth = depth;
 
@@ -55,7 +55,7 @@ public class Website {
         return this.headings;
     }
 
-    public ArrayList<String> getLinks() {
+    public ArrayList<Link> getLinks() {
         return this.links;
     }
 
