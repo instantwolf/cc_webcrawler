@@ -1,4 +1,4 @@
-package JsoupParser;
+package HtmlParser.JsoupImplementation;
 
 public enum HtmlParserSelector {
 

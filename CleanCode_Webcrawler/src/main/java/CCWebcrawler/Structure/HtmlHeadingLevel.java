@@ -1,4 +1,4 @@
-package CCWebcrawler;
+package CCWebcrawler.Structure;
 
 public enum HtmlHeadingLevel {
     H1(1),

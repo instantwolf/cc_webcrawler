@@ -1,5 +1,9 @@
 package CCWebcrawler;
 
+import CCWebcrawler.Structure.HtmlHeading;
+import CCWebcrawler.Structure.Link;
+import CCWebcrawler.Structure.Website;
+
 import java.util.List;
 
 public class MarkDownGenerator {
@@ -37,7 +41,7 @@ public class MarkDownGenerator {
             result = result.concat(HEADER_MARKDOWN_TEMPLATE
                                     .replace("{$1}", getHeadingPrefix(heading.getHeadingLevelInt()))
                                     .replace("{$2}", depthPrefix)
-                                    .replace("{$3}", heading.content)
+                                    .replace("{$3}", heading.getContent())
             );
 
         return result;

@@ -1,7 +1,7 @@
-import CCWebcrawler.HtmlHeading;
-import CCWebcrawler.Link;
+import CCWebcrawler.Structure.HtmlHeading;
+import CCWebcrawler.Structure.Link;
 import CCWebcrawler.MarkDownGenerator;
-import CCWebcrawler.Website;
+import CCWebcrawler.Structure.Website;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

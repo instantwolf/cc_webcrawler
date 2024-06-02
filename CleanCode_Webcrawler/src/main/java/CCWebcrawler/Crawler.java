@@ -1,5 +1,10 @@
 package CCWebcrawler;
 
+import CCWebcrawler.Structure.HtmlHeading;
+import CCWebcrawler.Structure.Link;
+import CCWebcrawler.Structure.Website;
+import HtmlParser.JsoupParserAdapter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -76,5 +81,6 @@ public class Crawler implements  CCWebCrawler{
         ArrayList<Link> links = parser.getLinks(url).stream().map(Link::new).collect(Collectors.toCollection(ArrayList::new));
         return new Website(url,links,headings,depth);
     }
+
 
 }

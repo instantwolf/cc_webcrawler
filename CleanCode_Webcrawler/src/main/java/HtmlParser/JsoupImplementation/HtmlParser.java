@@ -1,4 +1,4 @@
-package JsoupParser;
+package HtmlParser.JsoupImplementation;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;

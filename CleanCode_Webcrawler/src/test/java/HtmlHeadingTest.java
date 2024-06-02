@@ -1,5 +1,5 @@
-import CCWebcrawler.HtmlHeading;
-import CCWebcrawler.HtmlHeadingLevel;
+import CCWebcrawler.Structure.HtmlHeading;
+import CCWebcrawler.Structure.HtmlHeadingLevel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;

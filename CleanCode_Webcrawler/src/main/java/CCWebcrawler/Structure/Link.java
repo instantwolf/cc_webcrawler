@@ -1,4 +1,4 @@
-package CCWebcrawler;
+package CCWebcrawler.Structure;
 
 public class Link{
 
