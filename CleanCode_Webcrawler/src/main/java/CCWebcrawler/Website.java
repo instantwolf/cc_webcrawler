@@ -15,26 +15,19 @@ public class Website {
 
     public int depth;
 
-    private final ArrayList<Website> children;
 
 
 
     public Website(String url, ArrayList<Link> links, ArrayList<HtmlHeading> headings, int depth){
         this.url = url;
-        this.links = new ArrayList<>();
+        this.links = new ArrayList<>(links);
         this.headings = headings;
         this.depth = depth;
-
-        this.children = new ArrayList<>();
     }
 
-
-    public void addChild(Website site){
-        this.children.add(site);
-    }
 
     public Stream<Website> getAllCrawledSubSites(){
-        Stream<Website> res =  this.children.stream().flatMap(Website::getAllCrawledSubSites);
+        Stream<Website> res =  this.links.stream().filter(x -> !x.broken).map(x -> x.target).flatMap(Website::getAllCrawledSubSites);
 
         if (this.depth != 0){ //if not depth 0, add this instance to resultSet
          List<Website> intermediate = res.collect(Collectors.toList());
@@ -46,8 +39,9 @@ public class Website {
 
     public Stream<Website> getChildrenAtDepth(int depth){
         if(depth > this.depth)
-            return this.children.stream()
-                    .flatMap(x -> x.getChildrenAtDepth(depth));
+            return this.links.stream()
+                    .filter(x -> !x.broken && x.target != null)
+                    .flatMap(x -> x.target.getChildrenAtDepth(depth));
         else return Stream.of(this);
     }
 
@@ -70,7 +64,6 @@ public class Website {
                 ", links=" + links +
                 ", headings=" + headings +
                 ", depth=" + depth +
-                ", children: { \n" + children +
                 "\n }";
     }
 

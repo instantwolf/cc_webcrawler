@@ -1,23 +1,19 @@
 package CCWebcrawler;
 
-import JsoupParser.HtmlParser;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Crawler {
+public class Crawler implements  CCWebCrawler{
 
 
     private final String startURL;
 
     private int targetDepth = 0;
 
-    private Website page;
+    private Website startPage;
 
     private final JsoupParserAdapter parser;
 
@@ -31,28 +27,26 @@ public class Crawler {
         this.parser = parser;
     }
 
-    public Website getResults() throws IOException{
-        if(this.page == null)
-            crawlPages();
-
-        return this.page;
+    public Website getResults(){
+        return this.startPage;
     }
 
 
-
-    private void crawlPages() throws IOException{
+    public void crawlPages() throws IOException{
         int currentDepth = 0;
-        this.page = crawlPage(startURL,currentDepth++);
+
+
+        this.startPage = crawlPage(startURL,currentDepth++);
 
         Set<Website> crawlSet = new HashSet<>();
-        crawlSet.add(page);
+        crawlSet.add(startPage);
 
         while(currentDepth<= targetDepth){
             for (Website currentSite : crawlSet)
                     crawlPages(currentSite.getLinks(), currentDepth).forEach(currentSite::addChild);
 
             //now we add all newly crawled pages to the crawlSet
-            crawlSet = page.getChildrenAtDepth(currentDepth++).collect(Collectors.toSet());
+            crawlSet = startPage.getChildrenAtDepth(currentDepth++).collect(Collectors.toSet());
         }
     }
 
@@ -64,11 +58,23 @@ public class Crawler {
         return results;
     }
 
+
+    private Link crawlPageAndSaveLink(Link linkToCrawl, int depth){
+
+        try{
+            linkToCrawl.target = crawlPage(linkToCrawl.url,depth);
+        }
+        catch(IOException e){
+            linkToCrawl.broken = true;
+        }
+        return linkToCrawl;
+    }
+
+
     private Website crawlPage(String url, int depth) throws IOException {
         ArrayList<HtmlHeading> headings = parser.getHeadings(url);
         ArrayList<Link> links = parser.getLinks(url).stream().map(Link::new).collect(Collectors.toCollection(ArrayList::new));
         return new Website(url,links,headings,depth);
     }
-
 
 }

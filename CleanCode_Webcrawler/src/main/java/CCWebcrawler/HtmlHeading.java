@@ -27,9 +27,8 @@ public class HtmlHeading {
         return this.content;
     }
 
-    public HtmlHeading setContent(String content){
+    public void setContent(String content){
         this.content = content;
-        return this;
     }
 
     public int getHeadingLevelInt(){ return this.level.getHeadingLevelInt(); }
