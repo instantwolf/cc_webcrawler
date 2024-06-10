@@ -1,5 +1,13 @@
+import org.junit.jupiter.api.Test;
+
+import static junit.framework.TestCase.assertEquals;
+
 public class URLValidatorTest {
 
+    @Test
+    public void isValidURLSuccessWithoutProtocol() {
+        assertEquals(true, URLValidator);
+    }
 
     /**
      * Mögliche Tests: Teste einmal alle typen von URLS die valide sein können
