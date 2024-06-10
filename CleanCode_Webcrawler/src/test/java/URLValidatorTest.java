@@ -1,13 +1,60 @@
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.*;
 
 public class URLValidatorTest {
 
     @Test
-    public void isValidURLSuccessWithoutProtocol() {
-        assertEquals(true, URLValidator);
+    public void isValidURLSuccessWithoutProtocolTest() {
+        assertTrue(URLValidator.isValidURL("www.orf.at"));
     }
+
+    @Test
+    public void isValidURLSuccessWithHTTPProtocolTest() {
+        assertTrue(URLValidator.isValidURL("http://www.orf.at"));
+    }
+
+    @Test
+    public void isValidURLSuccessWithHTTPSProtocolTest() {
+        assertTrue(URLValidator.isValidURL("https://www.orf.at"));
+    }
+
+    @Test
+    public void isInvalidURLWithWrongProtocolTest() {
+        assertFalse(URLValidator.isValidURL("httpy://www.orf.at"));
+    }
+
+    @Test
+    public void isValidURLWithTopDomainLengthEqualThree() {
+        assertTrue(URLValidator.isValidURL("http://www.orf.com"));
+    }
+
+    @Test
+    public void isValidURLWithTopDomainLengthEqualFour() {
+        assertTrue(URLValidator.isValidURL("http://www.orf.info"));
+    }
+
+    @Test
+    public void isInvalidURLWithTopDomainLengthTooBig() {
+        assertFalse(URLValidator.isValidURL("http://www.orf.comomom"));
+    }
+
+    @Test
+    public void isInvalidURLWithTopDomainLengthTooSmall() {
+        assertFalse(URLValidator.isValidURL("http://www.orf.c"));
+    }
+
+    @Test
+    public void isValidURLWithURI() {
+        assertTrue(URLValidator.isValidURL("http://www.orf.info/abcd/"));
+    }
+
+    @Test
+    public void isValidURLWithoutWWW() {
+        assertTrue(URLValidator.isValidURL("http://orf.info/abcd"));
+    }
+
+
 
     /**
      * Mögliche Tests: Teste einmal alle typen von URLS die valide sein können
