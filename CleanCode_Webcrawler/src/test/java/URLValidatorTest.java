@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
@@ -7,52 +8,52 @@ public class URLValidatorTest {
 
     @Test
     public void isValidURLSuccessWithoutProtocolTest() {
-        assertTrue(URLValidator.isValidURL("www.orf.at"));
+        Assertions.assertTrue(URLValidator.isValidURL("www.orf.at"));
     }
 
     @Test
     public void isValidURLSuccessWithHTTPProtocolTest() {
-        assertTrue(URLValidator.isValidURL("http://www.orf.at"));
+        Assertions.assertTrue(URLValidator.isValidURL("http://www.orf.at"));
     }
 
     @Test
     public void isValidURLSuccessWithHTTPSProtocolTest() {
-        assertTrue(URLValidator.isValidURL("https://www.orf.at"));
+        Assertions.assertTrue(URLValidator.isValidURL("https://www.orf.at"));
     }
 
     @Test
     public void isInvalidURLWithWrongProtocolTest() {
-        assertFalse(URLValidator.isValidURL("httpy://www.orf.at"));
+        Assertions.assertFalse(URLValidator.isValidURL("httpy://www.orf.at"));
     }
 
     @Test
     public void isValidURLWithTopDomainLengthEqualThree() {
-        assertTrue(URLValidator.isValidURL("http://www.orf.com"));
+        Assertions.assertTrue(URLValidator.isValidURL("http://www.orf.com"));
     }
 
     @Test
     public void isValidURLWithTopDomainLengthEqualFour() {
-        assertTrue(URLValidator.isValidURL("http://www.orf.info"));
+        Assertions.assertTrue(URLValidator.isValidURL("http://www.orf.info"));
     }
 
     @Test
     public void isInvalidURLWithTopDomainLengthTooBig() {
-        assertFalse(URLValidator.isValidURL("http://www.orf.comomom"));
+        Assertions.assertFalse(URLValidator.isValidURL("http://www.orf.comomom"));
     }
 
     @Test
     public void isInvalidURLWithTopDomainLengthTooSmall() {
-        assertFalse(URLValidator.isValidURL("http://www.orf.c"));
+        Assertions.assertFalse(URLValidator.isValidURL("http://www.orf.c"));
     }
 
     @Test
     public void isValidURLWithURI() {
-        assertTrue(URLValidator.isValidURL("http://www.orf.info/abcd/"));
+        Assertions.assertTrue(URLValidator.isValidURL("http://www.orf.info/abcd/"));
     }
 
     @Test
     public void isValidURLWithoutWWW() {
-        assertTrue(URLValidator.isValidURL("http://orf.info/abcd"));
+        Assertions.assertTrue(URLValidator.isValidURL("http://orf.info/abcd"));
     }
 
 
