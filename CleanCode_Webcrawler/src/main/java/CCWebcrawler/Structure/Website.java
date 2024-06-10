@@ -16,8 +16,6 @@ public class Website {
     public int depth;
 
 
-
-
     public Website(String url, ArrayList<Link> links, ArrayList<HtmlHeading> headings, int depth){
         this.url = url;
         this.links = new ArrayList<>(links);
@@ -37,6 +35,7 @@ public class Website {
         return res;
     }
 
+
     public Stream<Website> getChildrenAtDepth(int depth){
         if(depth > this.depth)
             return this.links.stream()
@@ -45,17 +44,26 @@ public class Website {
         else return Stream.of(this);
     }
 
+
     public ArrayList<HtmlHeading> getHeadings() {
         return this.headings;
     }
+
 
     public ArrayList<Link> getLinks() {
         return this.links;
     }
 
+
     public String getUrl(){
         return this.url;
     }
+
+    public void addChild(Website child){
+        this.links.add(new Link(child.url));
+    }
+
+
 
     @Override
     public String toString() {

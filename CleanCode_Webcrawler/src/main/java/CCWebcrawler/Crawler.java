@@ -6,9 +6,7 @@ import CCWebcrawler.Structure.Website;
 import HtmlParser.JsoupParserAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Crawler implements  CCWebCrawler{
@@ -64,8 +62,7 @@ public class Crawler implements  CCWebCrawler{
     }
 
 
-    private Link crawlPageAndSaveLink(Link linkToCrawl, int depth){
-
+    private Link crawlPageAndModifyLinkState(Link linkToCrawl, int depth){
         try{
             linkToCrawl.target = crawlPage(linkToCrawl.url,depth);
         }
@@ -77,9 +74,20 @@ public class Crawler implements  CCWebCrawler{
 
 
     private Website crawlPage(String url, int depth) throws IOException {
-        ArrayList<HtmlHeading> headings = parser.getHeadings(url);
+        ArrayList<HtmlHeading> headings = convertHashMapToHtmlHeading(parser.getHeadings(url));
         ArrayList<Link> links = parser.getLinks(url).stream().map(Link::new).collect(Collectors.toCollection(ArrayList::new));
         return new Website(url,links,headings,depth);
+    }
+
+    private ArrayList<HtmlHeading> convertHashMapToHtmlHeading(HashMap<String,Integer> map){
+        ArrayList<HtmlHeading> headings = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String content = entry.getKey();
+            Integer headingLevel = entry.getValue();
+            headings.add(new HtmlHeading(headingLevel,content));
+        }
+
+        return headings;
     }
 
 
