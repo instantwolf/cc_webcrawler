@@ -35,8 +35,8 @@ public class Crawler implements  CCWebCrawler{
     }
 
 
-    public void crawlPages() throws IOException{
-        int currentDepth = 0;
+    public void crawlPages(){
+        int currentDepth = 1;
         Set<Link> crawlSet = new HashSet<>();
         crawlSet.add(startLink);
 

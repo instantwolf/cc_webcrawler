@@ -26,7 +26,7 @@ public class MarkDownGenerator {
     public static String generateStartLinkMarkDown(Link startLink, int targetDepth){
         String result = "";
         result = result.concat(generateMarkDownIntro(startLink.url, targetDepth));
-        result = result.concat(generateLinkMarkdown(startLink,0));
+        result = result.concat(generateLinkMarkdown(startLink,1));
         return result;
     }
 
@@ -34,14 +34,16 @@ public class MarkDownGenerator {
 
     public static String generateLinkMarkdown(Link link, int currentLinkDepth){
         String result = "";
+
+        if(currentLinkDepth != 1){
+            String depthPrefix = getDepthPrefix(currentLinkDepth); //a link is one level further down
+            result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
+        }
+
         if(link.visited()){
             result = result.concat(generateHeadingsMarkdown(link.target.getHeadings(), link.target.depth));
             for (Link subLink : link.target.getLinks())
                 result = result.concat(generateLinkMarkdown(subLink, currentLinkDepth+1));
-        }
-        else{ //link is broken or its contents have not been retrieved... only print link itself, not contents
-            String depthPrefix = getDepthPrefix(currentLinkDepth);
-            result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
         }
 
         return result;
@@ -62,21 +64,13 @@ public class MarkDownGenerator {
         return result;
     }
 
-    private static String generateLinksMarkdown(Set<Link> links, int depth) {
-        String depthPrefix = getDepthPrefix(depth);
-        String result = "";
-        for (Link link : links)
-            result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
-        return result;
-    }
-
 
     private static String getHeadingPrefix(int level) {
         return "#".repeat(level);
     }
 
     private static String getDepthPrefix(int depth) {
-        String prefix = "--".repeat(depth);
+        String prefix = depth > 1 ? "--".repeat(depth-1) : "";
         return (prefix.isEmpty() ? prefix : prefix + ">");
     }
 

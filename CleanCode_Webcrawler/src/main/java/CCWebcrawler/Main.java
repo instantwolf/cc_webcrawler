@@ -20,13 +20,9 @@ public class Main {
         JsoupParserAdapter parser = new JsoupParserAdapter();
         Crawler crawler = new Crawler(url, depth, parser);
 
-        try{
-            crawler.crawlPages();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        Link startLink = crawler.getResults();
+        crawler.crawlPages();
 
+        Link startLink = crawler.getResults();
 
         String markDown =  MarkDownGenerator.generateStartLinkMarkDown(startLink, depth);
 
@@ -43,7 +39,7 @@ public class Main {
 
        do{
           url = readInputLine("Enter the desired URL like: http://www.example.com  ");
-       }while(!validateUrl(url));
+       }while(!validateUrl(url.trim()));
 
        if(!URLValidator.hasProtocol(url))
            url = URLValidator.addProtocol(url);
