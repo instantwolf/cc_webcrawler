@@ -1,13 +1,11 @@
 package CCWebcrawler;
 
 import CCWebcrawler.Structure.Link;
-import CCWebcrawler.Structure.Website;
 import HtmlParser.JsoupParserAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 public class Main {
 

@@ -2,10 +2,7 @@ package CCWebcrawler;
 
 import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.Link;
-import CCWebcrawler.Structure.Website;
-
 import java.util.List;
-import java.util.Set;
 
 public class MarkDownGenerator {
 

@@ -9,18 +9,19 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Crawler implements  CCWebCrawler{
+public class ParallelCrawler implements  CCWebCrawler{
 
 
     private final Link startLink;
 
     private int targetDepth = 0;
 
+    private Website startPage;
 
     private final JsoupParserAdapter parser;
 
 
-    public Crawler(String startUrl, int targetDepth, JsoupParserAdapter parser){
+    public ParallelCrawler(String startUrl, int targetDepth, JsoupParserAdapter parser){
         this.startLink = new Link(startUrl);
 
         if(targetDepth > 0)
