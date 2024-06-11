@@ -9,13 +9,21 @@ import java.time.format.DateTimeFormatter;
 
 public class MarkDownWriter {
 
+    private static final String successMessagePrefix = "Markdown has been written to: ";
+    private static final String failureMessagePrefix = "An error has occurred while writing the markdown to the file: ";
+
     public static void printMarkDownToFile(String markdown) {
         String fileName = generateMarkDownFileName();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(markdown);
+            writeInfoMessage(successMessagePrefix, fileName);
         } catch (IOException e) {
-            e.printStackTrace();
+            writeInfoMessage(failureMessagePrefix, e.getMessage());
         }
+    }
+
+    private static void writeInfoMessage(String prefix, String addendum){
+        System.out.println(prefix+addendum);
     }
 
     private static String generateMarkDownFileName(){

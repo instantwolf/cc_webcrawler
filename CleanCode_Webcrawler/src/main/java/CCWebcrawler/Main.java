@@ -1,5 +1,6 @@
 package CCWebcrawler;
 
+import CCWebcrawler.Structure.Link;
 import CCWebcrawler.Structure.Website;
 import HtmlParser.JsoupParserAdapter;
 
@@ -24,11 +25,14 @@ public class Main {
         }catch(Exception e){
             e.printStackTrace();
         }
-        Website crawledSite = crawler.getResults();
+        Link startLink = crawler.getResults();
 
 
-        String markDown =  MarkDownGenerator.generateMarkDownForWebsite(
-                             crawledSite.getUrl(), depth,crawledSite);
+        String markDown =  MarkDownGenerator.generateStartLinkMarkDown(startLink, depth);
+
+        //print to file
+        MarkDownWriter.printMarkDownToFile(markDown);
+
         System.out.println(markDown);
 
 

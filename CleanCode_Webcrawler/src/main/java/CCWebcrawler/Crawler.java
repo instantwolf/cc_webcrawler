@@ -30,8 +30,8 @@ public class Crawler implements  CCWebCrawler{
         this.parser = parser;
     }
 
-    public Website getResults(){
-        return this.startPage;
+    public Link getResults(){
+        return this.startLink;
     }
 
 

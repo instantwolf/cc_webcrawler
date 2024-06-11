@@ -23,18 +23,32 @@ public class MarkDownGenerator {
                                                             {$1} {$2} {$3}
                                                             """;
 
-    public static String generateMarkDownForWebsite(String inputUrl, int targetDepth, Website website) {
+    public static String generateStartLinkMarkDown(Link startLink, int targetDepth){
         String result = "";
-
-        if(website.depth == 0)
-            result = result.concat(generateMarkDownIntro(inputUrl, targetDepth));
-
-        result = result.concat(generateHeadingMarkdown(website.getHeadings(), website.depth));
-        result = result.concat(generateLinksMarkdown(website.getLinks(), targetDepth));
+        result = result.concat(generateMarkDownIntro(startLink.url, targetDepth));
+        result = result.concat(generateLinkMarkdown(startLink,0));
         return result;
     }
 
-    private static String generateHeadingMarkdown(List<HtmlHeading> headings, int depth) {
+
+
+    public static String generateLinkMarkdown(Link link, int currentLinkDepth){
+        String result = "";
+        if(link.visited()){
+            result = result.concat(generateHeadingsMarkdown(link.target.getHeadings(), link.target.depth));
+            for (Link subLink : link.target.getLinks())
+                result = result.concat(generateLinkMarkdown(subLink, currentLinkDepth+1));
+        }
+        else{ //link is broken or its contents have not been retrieved... only print link itself, not contents
+            String depthPrefix = getDepthPrefix(currentLinkDepth);
+            result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
+        }
+
+        return result;
+    }
+
+
+    private static String generateHeadingsMarkdown(List<HtmlHeading> headings, int depth) {
         String depthPrefix = getDepthPrefix(depth);
         String result = "";
 
@@ -55,6 +69,7 @@ public class MarkDownGenerator {
             result = result.concat(insertValuesToLinkTemplate(depthPrefix,link));
         return result;
     }
+
 
     private static String getHeadingPrefix(int level) {
         return "#".repeat(level);

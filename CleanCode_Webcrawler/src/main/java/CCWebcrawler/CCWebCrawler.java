@@ -1,5 +1,6 @@
 package CCWebcrawler;
 
+import CCWebcrawler.Structure.Link;
 import CCWebcrawler.Structure.Website;
 
 import java.io.IOException;
@@ -10,6 +11,6 @@ public interface CCWebCrawler {
     void crawlPages() throws IOException;
 
     //Query
-    Website getResults() ;
+    Link getResults() ;
 
 }

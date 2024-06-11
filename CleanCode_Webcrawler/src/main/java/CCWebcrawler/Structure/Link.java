@@ -13,7 +13,7 @@ public class Link{
     }
 
     public boolean visited(){
-        return target != null || broken;
+        return target != null && !broken;
     }
 
 
