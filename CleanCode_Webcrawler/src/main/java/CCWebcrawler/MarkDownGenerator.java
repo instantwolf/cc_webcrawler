@@ -16,7 +16,9 @@ public class MarkDownGenerator {
                                                             """;
 
     private static final String LINK_MARKDOWN_TEMPLATE = """
-                                                         <br> {$1} {$2} <a>{$3}</a>
+                                                         <br>{$1} {$2} <a>{$3}</a>
+                                                         
+                                                         
                                                          """;
 
     private static final String HEADER_MARKDOWN_TEMPLATE =  """
