@@ -38,38 +38,38 @@ public class Crawler implements  CCWebCrawler{
     public void crawlPages() throws IOException{
         int currentDepth = 0;
 
-
+        //fetching the start page initially (induction basis)
         this.startPage = crawlPage(startURL,currentDepth++);
 
         Set<Website> crawlSet = new HashSet<>();
         crawlSet.add(startPage);
 
-        while(currentDepth<= targetDepth){
+        while(currentDepth <= targetDepth){
             for (Website currentSite : crawlSet)
-                    crawlPages(currentSite.getLinks(), currentDepth).forEach(currentSite::addChild);
+                crawlPagesAndSaveTargetIntoLinks(currentSite.getLinks(), currentDepth).forEach(currentSite::addChild);
 
-            //now we add all newly crawled pages to the crawlSet
+            //induction continues until currentdepth has been exceeded
+            //this is due to depth is always raised first, then sites for the given depth are crawled in
+            //the next iteration
             crawlSet = startPage.getChildrenAtDepth(currentDepth++).collect(Collectors.toSet());
         }
     }
 
 
-    private ArrayList<Website> crawlPages(ArrayList<Link> links, int depth) throws IOException{
-        ArrayList<Website> results = new ArrayList<>();
+    private ArrayList<Link> crawlPagesAndSaveTargetIntoLinks(ArrayList<Link> links, int depth){
         for(Link link : links)
-            results.add(crawlPage(link.toString(),depth));
-        return results;
+            crawlPageAndModifyLinkState(link, depth);
+        return links;
     }
 
 
-    private Link crawlPageAndModifyLinkState(Link linkToCrawl, int depth){
+    private void crawlPageAndModifyLinkState(Link linkToCrawl, int depth){
         try{
             linkToCrawl.target = crawlPage(linkToCrawl.url,depth);
         }
         catch(IOException e){
             linkToCrawl.broken = true;
         }
-        return linkToCrawl;
     }
 
 

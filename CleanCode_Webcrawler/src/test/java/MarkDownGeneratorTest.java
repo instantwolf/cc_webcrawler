@@ -125,14 +125,13 @@ public class MarkDownGeneratorTest {
     }
 
     private Website getNestedWebsite(){
-
         ArrayList<Website> sites = new ArrayList<>();
 
         for(int i = 0; i < exampleLinks.size(); i++)
             sites.add(generateExampleSite(exampleLinks.get(i),i,false));
 
         for(int i = 0; i < exampleLinks.size()-1; i++)
-            sites.get(i).addChild(sites.get(i+1)); //add next site as child to previous one
+            sites.get(i).addChild(new Link(sites.get(i+1).getUrl())); //add next site as child to previous one
 
         return sites.getFirst();
     }

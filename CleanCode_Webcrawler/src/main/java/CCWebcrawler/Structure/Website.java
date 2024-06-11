@@ -25,7 +25,7 @@ public class Website {
 
 
     public Stream<Website> getAllCrawledSubSites(){
-        Stream<Website> res =  this.links.stream().filter(x -> !x.broken).map(x -> x.target).flatMap(Website::getAllCrawledSubSites);
+        Stream<Website> res =  this.links.stream().map(x -> x.target).flatMap(Website::getAllCrawledSubSites);
 
         if (this.depth != 0){ //if not depth 0, add this instance to resultSet
          List<Website> intermediate = res.collect(Collectors.toList());
@@ -59,8 +59,8 @@ public class Website {
         return this.url;
     }
 
-    public void addChild(Website child){
-        this.links.add(new Link(child.url));
+    public void addChild(Link child){
+        this.links.add(child);
     }
 
 

@@ -19,9 +19,12 @@ public class Main {
         JsoupParserAdapter parser = new JsoupParserAdapter();
         Crawler crawler = new Crawler(url, depth, parser);
 
+        try{
+            crawler.crawlPages();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         Website crawledSite = crawler.getResults();
-
-        List<Website> allCrawledSubSites = crawledSite.getAllCrawledSubSites().toList();
 
 
         String markDown =  MarkDownGenerator.generateMarkDownForWebsite(
