@@ -27,11 +27,12 @@ public class Main {
         String markDown =  MarkDownGenerator.generateStartLinkMarkDown(startLink, depth);
 
         //print to file
-        MarkDownWriter.printMarkDownToFile(markDown);
+
 
         System.out.println(markDown);
 
 
+        MarkDownWriter.printMarkDownToFile(markDown);
     }
 
     private static String readAndValidateURL(){

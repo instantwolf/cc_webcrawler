@@ -15,10 +15,10 @@ public class MarkDownWriter {
     private static final String successMessagePrefix = "Markdown has been written to: ";
     private static final String failureMessagePrefix = "An error has occurred while writing the markdown to the file: ";
 
-    private static final String markDownFilePathPrefix = "CleanCode_WebCrawler/src/main/java/resources/";
+
 
     public static void printMarkDownToFile(String markdown) {
-        String fileName = getPathMarkdownFileDestination().concat(generateMarkDownFileName());
+        String fileName = generateMarkDownFileName();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(markdown);
@@ -34,13 +34,6 @@ public class MarkDownWriter {
         System.out.println(prefix+addendum);
     }
 
-    private static String getPathMarkdownFileDestination(){
-        Path absolutePath = Paths.get(markDownFilePathPrefix).toAbsolutePath();
-        if(Files.exists(absolutePath))
-            return absolutePath.toString().concat("/");
-        else
-            return "";
-    }
 
     private static String generateMarkDownFileName(){
         LocalDateTime now = LocalDateTime.now();
