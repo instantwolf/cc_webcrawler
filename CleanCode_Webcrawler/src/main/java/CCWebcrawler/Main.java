@@ -40,6 +40,10 @@ public class Main {
        do{
           url = readInputLine("Enter the desired URL like: http://www.example.com  ");
        }while(!validateUrl(url));
+
+       if(!URLValidator.hasProtocol(url))
+           url = URLValidator.addProtocol(url);
+
        return url;
     }
 
@@ -52,6 +56,7 @@ public class Main {
         return false;
 
     }
+
 
     private static int readAndValidateDepth(){
         String input;
