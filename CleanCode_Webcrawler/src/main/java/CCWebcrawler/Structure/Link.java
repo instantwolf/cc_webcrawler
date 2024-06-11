@@ -16,9 +16,6 @@ public class Link{
         return target != null || broken;
     }
 
-    public void setBroken(){
-        this.broken = true;
-    }
 
     @Override
     public String toString() {

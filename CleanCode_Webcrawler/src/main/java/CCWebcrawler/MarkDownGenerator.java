@@ -5,6 +5,7 @@ import CCWebcrawler.Structure.Link;
 import CCWebcrawler.Structure.Website;
 
 import java.util.List;
+import java.util.Set;
 
 public class MarkDownGenerator {
 
@@ -47,7 +48,7 @@ public class MarkDownGenerator {
         return result;
     }
 
-    private static String generateLinksMarkdown(List<Link> links, int depth) {
+    private static String generateLinksMarkdown(Set<Link> links, int depth) {
         String depthPrefix = getDepthPrefix(depth);
         String result = "";
         for (Link link : links)

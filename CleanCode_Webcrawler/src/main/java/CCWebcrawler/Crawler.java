@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Crawler implements  CCWebCrawler{
 
 
-    private final String startURL;
+    private final Link startLink;
 
     private int targetDepth = 0;
 
@@ -22,7 +22,7 @@ public class Crawler implements  CCWebCrawler{
 
 
     public Crawler(String startUrl, int targetDepth, JsoupParserAdapter parser){
-        this.startURL = startUrl;
+        this.startLink = new Link(startUrl);
 
         if(targetDepth > 0)
             this.targetDepth = targetDepth;
@@ -37,26 +37,22 @@ public class Crawler implements  CCWebCrawler{
 
     public void crawlPages() throws IOException{
         int currentDepth = 0;
+        Set<Link> crawlSet = new HashSet<>();
+        crawlSet.add(startLink);
 
         //fetching the start page initially (induction basis)
-        this.startPage = crawlPage(startURL,currentDepth++);
+        //we do not increase depth for startPage -> stays 0
+        crawlPagesAndSaveTargetIntoLinks(crawlSet,currentDepth);
 
-        Set<Website> crawlSet = new HashSet<>();
-        crawlSet.add(startPage);
-
-        while(currentDepth <= targetDepth){
-            for (Website currentSite : crawlSet)
-                crawlPagesAndSaveTargetIntoLinks(currentSite.getLinks(), currentDepth).forEach(currentSite::addChild);
-
-            //induction continues until currentdepth has been exceeded
-            //this is due to depth is always raised first, then sites for the given depth are crawled in
-            //the next iteration
-            crawlSet = startPage.getChildrenAtDepth(currentDepth++).collect(Collectors.toSet());
+        while(currentDepth < targetDepth){
+            crawlSet = startLink.target.getLinksAtDepth(currentDepth).collect(Collectors.toSet());
+            currentDepth++;
+            crawlPagesAndSaveTargetIntoLinks(crawlSet, currentDepth);
         }
     }
 
 
-    private ArrayList<Link> crawlPagesAndSaveTargetIntoLinks(ArrayList<Link> links, int depth){
+    private Set<Link> crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
         for(Link link : links)
             crawlPageAndModifyLinkState(link, depth);
         return links;

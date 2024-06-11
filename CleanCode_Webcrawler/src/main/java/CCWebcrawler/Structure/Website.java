@@ -1,7 +1,9 @@
 package CCWebcrawler.Structure;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -9,7 +11,7 @@ public class Website {
 
     private final String url;
 
-    private final ArrayList<Link> links;
+    private final Set<Link> links;
 
     private final ArrayList<HtmlHeading> headings;
 
@@ -18,7 +20,7 @@ public class Website {
 
     public Website(String url, ArrayList<Link> links, ArrayList<HtmlHeading> headings, int depth){
         this.url = url;
-        this.links = new ArrayList<>(links);
+        this.links = new HashSet<>(links);
         this.headings = headings;
         this.depth = depth;
     }
@@ -44,13 +46,22 @@ public class Website {
         else return Stream.of(this);
     }
 
+    public Stream<Link> getLinksAtDepth(int depth){
+        if(depth > this.depth)
+            return this.links.stream()
+                    .filter(x -> !x.broken && x.target != null)
+                    .flatMap(x -> x.target.getLinksAtDepth(depth));
+        else return this.links.stream();
+    }
+
+
 
     public ArrayList<HtmlHeading> getHeadings() {
         return this.headings;
     }
 
 
-    public ArrayList<Link> getLinks() {
+    public Set<Link> getLinks() {
         return this.links;
     }
 
