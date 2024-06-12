@@ -22,7 +22,7 @@ public class MarkDownGeneratorTest {
     public void generate_markdown_for_empty_website() {
         Website emptyWebsite = getEmptyWebsite();
         Link emptyWebsiteLink = new Link(emptyWebsite.getUrl());
-        emptyWebsiteLink.destination = emptyWebsite;
+        emptyWebsiteLink.setDestination(emptyWebsite);
         String markdown =
                 MarkDownGenerator.generateStartLinkMarkDown(List.of(emptyWebsiteLink), targetDepth);
         System.out.println(markdown);
@@ -34,7 +34,7 @@ public class MarkDownGeneratorTest {
     public void generate_markdown_for_first_level_website() {
         Website simpleWebsite = getSimpleWebsite();
         Link simpleWebsiteLink = new Link(simpleWebsite.getUrl());
-        simpleWebsiteLink.destination = simpleWebsite;
+        simpleWebsiteLink.setDestination(simpleWebsite);
         String markdown =
                 MarkDownGenerator.generateStartLinkMarkDown(List.of(simpleWebsiteLink), targetDepth);
 
@@ -48,9 +48,7 @@ public class MarkDownGeneratorTest {
     public void generate_markdown_for_nested_website() {
         Website nested = getNestedWebsite();
         Link nestedLink = new Link(nested.getUrl());
-        nestedLink.destination = nested;
-
-        //TODO: test nested website structure in markdown
+        nestedLink.setDestination(nested);
     }
 
 
