@@ -22,8 +22,8 @@ public class JsoupHtmlParserAdapter implements HtmlParserAdapter {
     }
 
 
-    public HashMap<String,Integer> getHeadings(String website) throws IOException {
-        HashMap<String,Integer> result = new HashMap<>();
+    public HashMap<String, Integer> getHeadings(String website) throws IOException {
+        HashMap<String, Integer> result = new HashMap<>();
 
         Elements e = JsoupHtmlParser.getHeadings(website);
         for (Element element : e)
@@ -33,14 +33,14 @@ public class JsoupHtmlParserAdapter implements HtmlParserAdapter {
     }
 
 
-    private HashMap<String,Integer> convertHTMLElementToHeading(Element e) {
-        HashMap<String,Integer> result = new HashMap<>();
+    private HashMap<String, Integer> convertHTMLElementToHeading(Element e) {
+        HashMap<String, Integer> result = new HashMap<>();
         result.put(e.text(), convertTagNameToLevel(e.tagName()));
         return result;
     }
 
     private Integer convertTagNameToLevel(String tagName) {
-        return Integer.parseInt(tagName.substring(1,2));
+        return Integer.parseInt(tagName.substring(1, 2));
     }
 
     public String convertHTMLElementToLink(Element e) {

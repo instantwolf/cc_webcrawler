@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 public interface HtmlParserAdapter {
 
-     ArrayList<String> getLinks(String website) throws IOException;
+    ArrayList<String> getLinks(String website) throws IOException;
 
-     HashMap<String,Integer> getHeadings(String website) throws IOException;
+    HashMap<String, Integer> getHeadings(String website) throws IOException;
 
 }

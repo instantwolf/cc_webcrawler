@@ -13,7 +13,6 @@ public class MarkdownFileWriter {
     private static final String failureMessagePrefix = "An error has occurred while writing the markdown to the file: ";
 
 
-
     public static void printMarkDownToFile(String markdown) {
         String fileName = generateMarkDownFileName();
 
@@ -26,16 +25,15 @@ public class MarkdownFileWriter {
     }
 
 
-
-    private static void writeInfoMessage(String prefix, String addendum){
-        System.out.println(prefix+addendum);
+    private static void writeInfoMessage(String prefix, String addendum) {
+        System.out.println(prefix + addendum);
     }
 
 
-    private static String generateMarkDownFileName(){
+    private static String generateMarkDownFileName() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH_mm_ss_SSSSSS");
         String formattedTime = formatter.format(now);
-        return "crawling-report"+"_"+formattedTime+".md";
+        return "crawling-report" + "_" + formattedTime + ".md";
     }
 }

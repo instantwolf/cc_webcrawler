@@ -18,22 +18,20 @@ public abstract class CCWebCrawler {
     protected int targetDepth = 0;
 
 
-    public CCWebCrawler(List<String> startUrls, int targetDepth, HtmlParserAdapter parser){
+    public CCWebCrawler(List<String> startUrls, int targetDepth, HtmlParserAdapter parser) {
         this.parser = parser;
         setTargetDepth(targetDepth);
         initStartLinks(startUrls);
     }
 
 
-
     //Command
     public abstract void crawlPages();
 
     //Query
-    public List<Link> getResults(){
+    public List<Link> getResults() {
         return this.startLinks;
     }
-
 
 
     /**
@@ -42,25 +40,24 @@ public abstract class CCWebCrawler {
      */
     protected abstract void crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth);
 
-    protected void crawlPage(Link startLink){
+    protected void crawlPage(Link startLink) {
         int currentDepth = 1;
         Set<Link> crawlSet = new HashSet<>();
         crawlSet.add(startLink);
 
-        crawlPagesAndSaveTargetIntoLinks(crawlSet,currentDepth);
+        crawlPagesAndSaveTargetIntoLinks(crawlSet, currentDepth);
 
-        while(currentDepth < targetDepth){
+        while (currentDepth < targetDepth) {
             crawlSet = startLink.target.getLinksAtDepth(currentDepth).collect(Collectors.toSet());
             currentDepth++;
             crawlPagesAndSaveTargetIntoLinks(crawlSet, currentDepth);
         }
     }
 
-    protected void crawlPageAndModifyLinkState(Link linkToCrawl, int depth){
-        try{
-            linkToCrawl.target = crawlPage(linkToCrawl.url,depth);
-        }
-        catch(IOException e){
+    protected void crawlPageAndModifyLinkState(Link linkToCrawl, int depth) {
+        try {
+            linkToCrawl.target = crawlPage(linkToCrawl.url, depth);
+        } catch (IOException e) {
             linkToCrawl.broken = true;
         }
     }
@@ -68,28 +65,26 @@ public abstract class CCWebCrawler {
     protected Website crawlPage(String url, int depth) throws IOException {
         ArrayList<HtmlHeading> headings = convertHashMapToHtmlHeading(parser.getHeadings(url));
         ArrayList<Link> links = parser.getLinks(url).stream().map(Link::new).collect(Collectors.toCollection(ArrayList::new));
-        return new Website(url,links,headings,depth);
+        return new Website(url, links, headings, depth);
     }
 
-    protected ArrayList<HtmlHeading> convertHashMapToHtmlHeading(HashMap<String,Integer> map){
+    protected ArrayList<HtmlHeading> convertHashMapToHtmlHeading(HashMap<String, Integer> map) {
         ArrayList<HtmlHeading> headings = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             String content = entry.getKey();
             Integer headingLevel = entry.getValue();
-            headings.add(new HtmlHeading(headingLevel,content));
+            headings.add(new HtmlHeading(headingLevel, content));
         }
 
         return headings;
     }
 
 
-
-    private void initStartLinks(List<String> startUrls){
+    private void initStartLinks(List<String> startUrls) {
         this.startLinks = startUrls.stream().map(Link::new).collect(Collectors.toList());
     }
 
-    private void setTargetDepth(int targetDepth){
-        if(targetDepth > 0)
-            this.targetDepth = targetDepth;
+    private void setTargetDepth(int targetDepth) {
+        if (targetDepth > 0) this.targetDepth = targetDepth;
     }
 }

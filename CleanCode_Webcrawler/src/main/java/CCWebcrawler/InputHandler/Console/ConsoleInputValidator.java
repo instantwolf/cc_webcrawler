@@ -7,14 +7,14 @@ public class ConsoleInputValidator implements InputValidator {
 
 
     @Override
-    public  boolean isValidURL(String input) {
+    public boolean isValidURL(String input) {
         return URLValidator.isValidURL(input);
     }
 
 
     @Override
     public boolean isValidDepth(String targetDepth) {
-        if(isNumeric(targetDepth) || Integer.parseInt(targetDepth) >= 1)
+        if (isNumeric(targetDepth) || Integer.parseInt(targetDepth) >= 1)
             return true;
         else
             return false;
@@ -25,11 +25,10 @@ public class ConsoleInputValidator implements InputValidator {
         try {
             Integer.parseInt(str);
             return true;
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
-
 
 
 }

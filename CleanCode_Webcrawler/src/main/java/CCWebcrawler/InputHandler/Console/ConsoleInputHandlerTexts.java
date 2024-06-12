@@ -13,7 +13,7 @@ public enum ConsoleInputHandlerTexts {
 
     private final String text;
 
-    ConsoleInputHandlerTexts(String text){
+    ConsoleInputHandlerTexts(String text) {
         this.text = text;
     }
 

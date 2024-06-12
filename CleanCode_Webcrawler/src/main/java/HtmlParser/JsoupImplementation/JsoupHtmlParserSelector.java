@@ -12,13 +12,12 @@ public enum JsoupHtmlParserSelector {
     private static final String LINK_SELECTOR = "a[href]";
 
 
-    JsoupHtmlParserSelector(boolean type){
-        this.selectsHeadings = (boolean)type;
+    JsoupHtmlParserSelector(boolean type) {
+        this.selectsHeadings = (boolean) type;
     }
 
 
-
-    public String toString(){
+    public String toString() {
         if (selectsHeadings)
             return HEADING_SELECTOR;
         else return LINK_SELECTOR;

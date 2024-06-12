@@ -9,11 +9,9 @@ public enum HtmlHeadingLevel {
     H6(6);
     private final int headingLevel;
 
-    HtmlHeadingLevel(int headinglevel){
+    HtmlHeadingLevel(int headinglevel) {
         this.headingLevel = headinglevel;
     }
-
-
 
 
     public static HtmlHeadingLevel createFromString(String headingLevel) {
@@ -31,26 +29,28 @@ public enum HtmlHeadingLevel {
     }
 
 
-    public static boolean isValidHtmlHeadingLevel(int level){
+    public static boolean isValidHtmlHeadingLevel(int level) {
         return level >= 1 && level <= 6;
     }
 
-    public static HtmlHeadingLevel createFromInt(int headingLevel){
+    public static HtmlHeadingLevel createFromInt(int headingLevel) {
         return
-               switch(headingLevel){
-                   case 1 ->  H1;
-                   case 2 ->  H2;
-                   case 3 ->  H3;
-                   case 4 ->  H4;
-                   case 5 ->  H5;
-                   case 6 ->  H6;
-                   default -> throw new IllegalStateException("Unexpected value: " + headingLevel);
-               };
+                switch (headingLevel) {
+                    case 1 -> H1;
+                    case 2 -> H2;
+                    case 3 -> H3;
+                    case 4 -> H4;
+                    case 5 -> H5;
+                    case 6 -> H6;
+                    default -> throw new IllegalStateException("Unexpected value: " + headingLevel);
+                };
     }
 
-    public int getHeadingLevelInt(){ return this.headingLevel; }
+    public int getHeadingLevelInt() {
+        return this.headingLevel;
+    }
 
-    public static HtmlHeadingLevel getDefaultLevel(){
+    public static HtmlHeadingLevel getDefaultLevel() {
         return HtmlHeadingLevel.H1;
     }
 }

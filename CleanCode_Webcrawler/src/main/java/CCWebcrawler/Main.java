@@ -4,6 +4,7 @@ import CCWebcrawler.InputHandler.Console.ConsoleInputHandler;
 import CCWebcrawler.InputHandler.InputHandler;
 import CCWebcrawler.Structure.Link;
 import HtmlParser.JsoupHtmlParserAdapter;
+
 import java.util.List;
 
 public class Main {
@@ -15,13 +16,13 @@ public class Main {
         Integer targetDepth = inputHandler.handleTargetDepthInput();
 
         JsoupHtmlParserAdapter parser = new JsoupHtmlParserAdapter();
-        CCWebCrawler crawler = CrawlerFactory.create(urls,targetDepth,parser);
+        CCWebCrawler crawler = CrawlerFactory.create(urls, targetDepth, parser);
 
         crawler.crawlPages();
 
         List<Link> startLinks = crawler.getResults();
 
-        String markDown =  MarkDownGenerator.generateStartLinkMarkDown(startLinks, targetDepth);
+        String markDown = MarkDownGenerator.generateStartLinkMarkDown(startLinks, targetDepth);
 
         System.out.println(markDown);
         MarkdownFileWriter.printMarkDownToFile(markDown);

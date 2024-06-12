@@ -6,32 +6,34 @@ public class HtmlHeading {
 
     String content = "";
 
-    public HtmlHeading(String tag, String content){
+    public HtmlHeading(String tag, String content) {
         this.level = HtmlHeadingLevel.createFromString(tag);
         this.content = content;
     }
 
-    public HtmlHeading(HtmlHeadingLevel level, String content){
+    public HtmlHeading(HtmlHeadingLevel level, String content) {
         this.level = level;
         this.content = content;
     }
 
-   public HtmlHeading(int headingLevel, String content){
+    public HtmlHeading(int headingLevel, String content) {
 
-        this.level =  HtmlHeadingLevel.isValidHtmlHeadingLevel(headingLevel) ?
-                 HtmlHeadingLevel.createFromInt(headingLevel) : HtmlHeadingLevel.getDefaultLevel();
+        this.level = HtmlHeadingLevel.isValidHtmlHeadingLevel(headingLevel) ?
+                HtmlHeadingLevel.createFromInt(headingLevel) : HtmlHeadingLevel.getDefaultLevel();
         this.content = content;
-   }
+    }
 
-    public String getContent(){
+    public String getContent() {
         return this.content;
     }
 
-    public void setContent(String content){
+    public void setContent(String content) {
         this.content = content;
     }
 
-    public int getHeadingLevelInt(){ return this.level.getHeadingLevelInt(); }
+    public int getHeadingLevelInt() {
+        return this.level.getHeadingLevelInt();
+    }
 
     @Override
     public String toString() {

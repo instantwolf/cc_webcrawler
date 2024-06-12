@@ -2,7 +2,7 @@ package CCWebcrawler.Structure;
 
 import CCWebcrawler.URLValidator;
 
-public class Link{
+public class Link {
 
     private static final String defaultProtocoll = "https://";
 
@@ -16,14 +16,14 @@ public class Link{
         this.broken = false;
     }
 
-    public void setUrl(String url){
-        if(!URLValidator.hasProtocol(url))
-            this.url = defaultProtocoll+url;
+    public void setUrl(String url) {
+        if (!URLValidator.hasProtocol(url))
+            this.url = defaultProtocoll + url;
         else
             this.url = url;
     }
 
-    public boolean visited(){
+    public boolean visited() {
         return target != null && !broken;
     }
 

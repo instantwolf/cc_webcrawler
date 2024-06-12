@@ -15,7 +15,7 @@ public class ConsoleInputHandler implements InputHandler {
     private final InputValidator inputValidator;
 
 
-    public ConsoleInputHandler(){
+    public ConsoleInputHandler() {
         this.inputReader = new ConsoleInputReader();
         this.inputValidator = new ConsoleInputValidator();
     }
@@ -29,7 +29,7 @@ public class ConsoleInputHandler implements InputHandler {
         isValidInput = separatedUrls.stream().allMatch(inputValidator::isValidURL);
 
 
-        if(!isValidInput) {
+        if (!isValidInput) {
             System.out.println(ConsoleInputHandlerTexts.INVALID_URL_RESPONSE);
             return handleURLInput();
         }
@@ -43,7 +43,7 @@ public class ConsoleInputHandler implements InputHandler {
         boolean isValidInput = inputValidator.isValidDepth(consoleInput);
 
 
-        if(!isValidInput) {
+        if (!isValidInput) {
             System.out.println(ConsoleInputHandlerTexts.INVALID_TARGET_DEPTH_PROMPT);
             return handleTargetDepthInput();
         }
@@ -52,8 +52,8 @@ public class ConsoleInputHandler implements InputHandler {
     }
 
 
-    private List<String> separateUrls(String consoleInput){
-        return List.of(consoleInput.split(" "));
+    private List<String> separateUrls(String consoleInput) {
+        return List.of(consoleInput.split(urlSeparator.toString()));
     }
 
 

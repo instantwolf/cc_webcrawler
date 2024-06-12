@@ -2,25 +2,27 @@ package CCWebcrawler;
 
 import CCWebcrawler.Structure.Link;
 import HtmlParser.HtmlParserAdapter;
-import java.util.*;
 
-public class ParallelCrawler extends CCWebCrawler{
+import java.util.List;
+import java.util.Set;
+
+public class ParallelCrawler extends CCWebCrawler {
 
 
-    public ParallelCrawler(List<String> startUrls, int targetDepth, HtmlParserAdapter parser){
-        super(startUrls,targetDepth,parser);
+    public ParallelCrawler(List<String> startUrls, int targetDepth, HtmlParserAdapter parser) {
+        super(startUrls, targetDepth, parser);
     }
 
 
-    public void crawlPages(){
+    public void crawlPages() {
         this.startLinks.stream().parallel().forEach(this::crawlPage);
     }
 
 
     @Override
-    protected void crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
+    protected void crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth) {
         links.stream().parallel().forEach((x) -> {
-            crawlPageAndModifyLinkState(x,depth);
+            crawlPageAndModifyLinkState(x, depth);
         });
     }
 
