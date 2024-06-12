@@ -2,7 +2,7 @@ import CCWebcrawler.SerialCrawler;
 import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.Link;
 import HtmlParser.JsoupHtmlParserAdapter;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -31,28 +31,35 @@ public class SerialCrawlerTest {
 
     private static int targetDepth;
 
-    @BeforeAll
-    public static void init() {
+    JsoupHtmlParserAdapter parserAdapter;
+
+    @BeforeEach
+    public void init() {
         startLinks = new ArrayList<>();
         links = new ArrayList<>();
         headings = new HashMap<>();
         resultLinks = new ArrayList<>();
+        parserAdapter = mock(JsoupHtmlParserAdapter.class);
 
         startLinks.add("https://example.com");
 
         resultLinks.add(new Link("http://www.iana.org/domains/arpa"));
         resultLinks.add(new Link("http://www.iana.org/reviews"));
+
+        targetDepth = 1;
+        serialCrawler = new SerialCrawler(startLinks, targetDepth, parserAdapter);
     }
 
     @Test
-    public void crawlerNotIntializedTest() {
-        assertEquals(null, serialCrawler.getResults());
+    public void crawlerPagesNotCrawledTest() {
+        List<Link> results = serialCrawler.getResults();
+        //output elements should be same as input elements, no pages crawled
+        assertEquals(startLinks.size(), results.size());
+        assertEquals(false, results.stream().anyMatch(Link::visited));
     }
 
     @Test
     public void crawlerTestSuccess() throws IOException {
-        JsoupHtmlParserAdapter parserAdapter = mock(JsoupHtmlParserAdapter.class);
-
         links.add("http://www.iana.org/domains/arpa");
         links.add("http://www.iana.org/reviews");
 
@@ -64,24 +71,21 @@ public class SerialCrawlerTest {
         when(parserAdapter.getHeadings(startLinks.getFirst())).thenReturn(headings);
 
 
-        targetDepth = 1;
-        serialCrawler = new SerialCrawler(startLinks, targetDepth, parserAdapter);
-
         serialCrawler.crawlPages();
 
         List<Link> results = serialCrawler.getResults();
-        assertEquals(1,results.size());
+        assertEquals(1, results.size());
         assertEquals(startLinks.getFirst(), results.getFirst().url); //check parent node
 
         //every link is contained
-        Set<String> resultLinks  = results.getFirst().getDestination().getLinks().stream().map(x -> x.url).collect(Collectors.toSet());
-        for(String link : links)
+        Set<String> resultLinks = results.getFirst().getDestination().getLinks().stream().map(x -> x.url).collect(Collectors.toSet());
+        for (String link : links)
             assertTrue(resultLinks.stream().anyMatch(x -> x.equals(link)));
         //amount of links is the same
         assertEquals(2, resultLinks.size());
 
         ArrayList<HtmlHeading> resultHeadings = results.getFirst().getDestination().getHeadings();
-        for(HtmlHeading heading : resultHeadings)
+        for (HtmlHeading heading : resultHeadings)
             assertTrue(headings.containsKey(heading.getContent()) && headings.get(heading.getContent()) == heading.getHeadingLevelInt());
         //amount of links is the same
         assertEquals(2, resultLinks.size());

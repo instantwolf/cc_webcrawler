@@ -1,4 +1,4 @@
-import CCWebcrawler.MarkdownFileWriter;
+import CCWebcrawler.Markdown.MarkdownFileWriter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +12,46 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MarkdownFileWriterTest {
 
     private static String directoryPath;
 
     @BeforeAll
-    public static void initDirectoryPath(){
+    public static void initDirectoryPath() {
         directoryPath = Paths.get("../../target").toAbsolutePath().toString();
     }
+
+    private static long countFiles(String path) {
+        try (Stream<Path> files = Files.walk(Paths.get(path))) {
+            return files.filter(Files::isRegularFile).count();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    private static String readMDFile(String file) throws IOException {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line).append(System.lineSeparator());
+            }
+        }
+        return contentBuilder.toString();
+    }
+
+    // Finds and return last modified file
+    private static Optional<Path> findLatestFile(String directoryPath) throws IOException {
+        try (var paths = Files.walk(Paths.get(directoryPath))) {
+            return paths.filter(Files::isRegularFile)
+                    .max(Comparator.comparingLong(p -> p.toFile().lastModified()));
+        }
+    }
+
+    // Helper Methods
 
     @Test
     public void newFileCreatedTest() {
@@ -53,36 +83,6 @@ public class MarkdownFileWriterTest {
             assertEquals("Test\nTest", fileOutput);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    // Helper Methods
-
-    private static long countFiles(String path) {
-        try (Stream<Path> files = Files.walk(Paths.get(path))) {
-            return files.filter(Files::isRegularFile).count();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
-
-    private static String readMDFile(String file) throws IOException {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                contentBuilder.append(line).append(System.lineSeparator());
-            }
-        }
-        return contentBuilder.toString();
-    }
-
-    // Finds and return last modified file
-    private static Optional<Path> findLatestFile(String directoryPath) throws IOException {
-        try (var paths = Files.walk(Paths.get(directoryPath))) {
-            return paths.filter(Files::isRegularFile)
-                    .max(Comparator.comparingLong(p -> p.toFile().lastModified()));
         }
     }
 }

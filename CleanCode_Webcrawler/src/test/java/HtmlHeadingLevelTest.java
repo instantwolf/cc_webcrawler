@@ -1,7 +1,7 @@
 import CCWebcrawler.Structure.HtmlHeadingLevel;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class HtmlHeadingLevelTest {
 
@@ -32,7 +32,7 @@ public class HtmlHeadingLevelTest {
 
     @Test
     public void createFromStringInvalidTest() {
-        assertEquals(HtmlHeadingLevel.getDefaultLevel(),  HtmlHeadingLevel.createFromString("h7"));
+        assertEquals(HtmlHeadingLevel.getDefaultLevel(), HtmlHeadingLevel.createFromString("h7"));
     }
 
     @Test

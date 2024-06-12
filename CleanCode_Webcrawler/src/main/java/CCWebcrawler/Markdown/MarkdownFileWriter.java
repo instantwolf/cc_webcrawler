@@ -1,4 +1,4 @@
-package CCWebcrawler;
+package CCWebcrawler.Markdown;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

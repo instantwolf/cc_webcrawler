@@ -1,7 +1,6 @@
+import CCWebcrawler.URLValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import CCWebcrawler.URLValidator;
 
 public class URLValidatorTest {
 

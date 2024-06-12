@@ -2,6 +2,8 @@ package CCWebcrawler;
 
 import CCWebcrawler.InputHandler.Console.ConsoleInputHandler;
 import CCWebcrawler.InputHandler.InputHandler;
+import CCWebcrawler.Markdown.MarkdownFileWriter;
+import CCWebcrawler.Markdown.MarkdownGenerator;
 import CCWebcrawler.Structure.Link;
 import HtmlParser.JsoupHtmlParserAdapter;
 
@@ -22,7 +24,7 @@ public class Main {
 
         List<Link> startLinks = crawler.getResults();
 
-        String markDown = MarkDownGenerator.generateStartLinkMarkDown(startLinks, targetDepth);
+        String markDown = MarkdownGenerator.generateStartlinksMarkdown(startLinks, targetDepth);
 
         System.out.println(markDown);
         MarkdownFileWriter.printMarkDownToFile(markDown);

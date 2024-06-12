@@ -9,6 +9,17 @@ import java.io.InputStreamReader;
 public class ConsoleInputReader implements InputReader {
 
 
+    private static String readInputLine() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String var = "";
+        try {
+            var = reader.readLine();
+        } catch (IOException e) {
+            System.out.println(ConsoleInputHandlerTexts.ERROR_READING_INPUT);
+        }
+        return var.trim();
+    }
+
     @Override
     public String readUrls() {
         System.out.println(ConsoleInputHandlerTexts.URL_PROMPT);
@@ -19,18 +30,6 @@ public class ConsoleInputReader implements InputReader {
     public String readDepth() {
         System.out.println(ConsoleInputHandlerTexts.TARGET_DEPTH_PROMPT);
         return readInputLine();
-    }
-
-
-    private static String readInputLine() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String var = "";
-        try {
-            var = reader.readLine();
-        } catch (IOException e) {
-            System.out.println(ConsoleInputHandlerTexts.ERROR_READING_INPUT);
-        }
-        return var.trim();
     }
 
 }

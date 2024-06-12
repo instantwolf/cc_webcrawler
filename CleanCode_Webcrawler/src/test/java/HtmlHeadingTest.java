@@ -2,7 +2,8 @@ import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.HtmlHeadingLevel;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class HtmlHeadingTest {
     private HtmlHeading heading;

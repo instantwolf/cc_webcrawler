@@ -27,13 +27,6 @@ public class Link {
         return destination != null && !isBroken;
     }
 
-    public void setDestination(Website destination) {
-        if (destination != null) {
-            this.isBroken = false;
-            this.destination = destination;
-        }
-    }
-
     public void setBroken() {
         this.isBroken = true;
         this.destination = null;
@@ -41,6 +34,13 @@ public class Link {
 
     public Website getDestination() {
         return this.destination;
+    }
+
+    public void setDestination(Website destination) {
+        if (destination != null) {
+            this.isBroken = false;
+            this.destination = destination;
+        }
     }
 
     public boolean isBroken() {
