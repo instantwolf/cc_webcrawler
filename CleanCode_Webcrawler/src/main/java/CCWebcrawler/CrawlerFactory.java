@@ -11,7 +11,7 @@ public abstract class CrawlerFactory {
             return new ParallelCrawler(urls,targetDepth,parserAdapter);
         }
         else
-            return new SerialCrawler(urls.getFirst(), targetDepth,parserAdapter);
+            return new SerialCrawler(urls, targetDepth,parserAdapter);
     }
 
 
