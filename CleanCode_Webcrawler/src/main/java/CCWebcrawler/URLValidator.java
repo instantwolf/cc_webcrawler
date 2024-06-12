@@ -9,7 +9,6 @@ public class URLValidator {
 
     private static final String URL_REGEX =
             "^((http|https):\\/\\/)?[a-zA-Z0-9]+(([\\-\\.])?[a-zA-Z0-9]*)\\.[a-zA-Z]{2,5}(\\/\\w*)*$";
-            //"^(http|https)://[a-zA-Z0-9]+([\\-\\.]{1}[a-zA-Z0-9]+)\\.[a-zA-Z]{2,5}(:[0-9]{1,5})?(\\/\\S)?$";
 
     private static final String HASPROTOCOL_REGEX =
             "^(http|https):\\/\\/.*";
