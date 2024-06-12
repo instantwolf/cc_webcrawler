@@ -51,7 +51,7 @@ public class SerialCrawlerTest {
     }
 
     @Test
-    public void crawlerPagesNotCrawledTest() {
+    public void pagesNotCrawledTest() {
         List<Link> results = serialCrawler.getResults();
         //output elements should be same as input elements, no pages crawled
         assertEquals(startLinks.size(), results.size());
