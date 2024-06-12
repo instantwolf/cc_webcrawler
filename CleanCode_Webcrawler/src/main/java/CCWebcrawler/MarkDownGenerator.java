@@ -22,6 +22,17 @@ public class MarkDownGenerator {
                                                             {$1} {$2} {$3}
                                                             """;
 
+
+    public static String generateStartLinkMarkDown(List<Link> startLinks, int targetDepth){
+        String result = "";
+
+        for(Link startLink : startLinks)
+            result = result.concat(generateStartLinkMarkDown(startLink,targetDepth));
+
+        return result;
+    }
+
+
     public static String generateStartLinkMarkDown(Link startLink, int targetDepth){
         String result = "";
         result = result.concat(generateMarkDownIntro(startLink.url, targetDepth));
@@ -31,7 +42,7 @@ public class MarkDownGenerator {
 
 
 
-    public static String generateLinkMarkdown(Link link, int currentLinkDepth){
+    private static String generateLinkMarkdown(Link link, int currentLinkDepth){
         String result = "";
 
         if(currentLinkDepth != 1){

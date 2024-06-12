@@ -3,26 +3,24 @@ package CCWebcrawler;
 import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.Link;
 import CCWebcrawler.Structure.Website;
-import HtmlParser.JsoupParserAdapter;
+import HtmlParser.HtmlParserAdapter;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ParallelCrawler implements  CCWebCrawler{
+public class ParallelCrawler implements CCWebCrawler{
 
 
-    private final Link startLink;
+    private final List<Link> startLinks;
 
     private int targetDepth = 0;
 
-    private Website startPage;
-
-    private final JsoupParserAdapter parser;
+    private final HtmlParserAdapter parser;
 
 
-    public ParallelCrawler(String startUrl, int targetDepth, JsoupParserAdapter parser){
-        this.startLink = new Link(startUrl);
+    public ParallelCrawler(List<String> startUrls, int targetDepth, HtmlParserAdapter parser){
+        this.startLinks = startUrls.stream().map(Link::new).collect(Collectors.toList());
 
         if(targetDepth > 0)
             this.targetDepth = targetDepth;
@@ -30,12 +28,16 @@ public class ParallelCrawler implements  CCWebCrawler{
         this.parser = parser;
     }
 
-    public Link getResults(){
-        return this.startLink;
+    public List<Link> getResults(){
+        return this.startLinks;
     }
 
 
     public void crawlPages(){
+        this.startLinks.stream().parallel().forEach(this::crawlPagesParallel);
+    }
+
+    private void crawlPagesParallel(Link startLink){
         int currentDepth = 1;
         Set<Link> crawlSet = new HashSet<>();
         crawlSet.add(startLink);
@@ -52,10 +54,10 @@ public class ParallelCrawler implements  CCWebCrawler{
     }
 
 
-    private Set<Link> crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
-        for(Link link : links)
-            crawlPageAndModifyLinkState(link, depth);
-        return links;
+    private void crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
+        links.stream().parallel().forEach((x) -> {
+            crawlPageAndModifyLinkState(x,depth);
+        });
     }
 
 
@@ -75,7 +77,7 @@ public class ParallelCrawler implements  CCWebCrawler{
         return new Website(url,links,headings,depth);
     }
 
-    private ArrayList<HtmlHeading> convertHashMapToHtmlHeading(HashMap<String,Integer> map){
+    private static ArrayList<HtmlHeading> convertHashMapToHtmlHeading(HashMap<String,Integer> map){
         ArrayList<HtmlHeading> headings = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             String content = entry.getKey();
@@ -85,6 +87,5 @@ public class ParallelCrawler implements  CCWebCrawler{
 
         return headings;
     }
-
 
 }

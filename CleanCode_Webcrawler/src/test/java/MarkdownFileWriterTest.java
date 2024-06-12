@@ -1,4 +1,5 @@
-import CCWebcrawler.MarkDownWriter;
+import CCWebcrawler.MarkdownFileWriter;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -13,22 +14,27 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-public class MarkDownWriterTest {
+public class MarkdownFileWriterTest {
 
-    private static String directoryPath = "../../target";
+    private static String directoryPath;
+
+    @BeforeAll
+    public static void initDirectoryPath(){
+        directoryPath = Paths.get("../../target").toAbsolutePath().toString();
+    }
 
     @Test
     public void newFileCreatedTest() {
         long fileCountBefore = countFiles(directoryPath);
 
-        MarkDownWriter.printMarkDownToFile("Test");
+        MarkdownFileWriter.printMarkDownToFile("Test");
 
         assertEquals(fileCountBefore, countFiles(directoryPath));
     }
 
     @Test
     public void writeToFileTest() {
-        MarkDownWriter.printMarkDownToFile("Test");
+        MarkdownFileWriter.printMarkDownToFile("Test");
         try {
             Optional<Path> latestFile = findLatestFile(directoryPath);
             String fileOutput = readMDFile(latestFile.get().toString());
@@ -40,7 +46,7 @@ public class MarkDownWriterTest {
 
     @Test
     public void writeToFileTestWithNewLine() {
-        MarkDownWriter.printMarkDownToFile("Test\nTest");
+        MarkdownFileWriter.printMarkDownToFile("Test\nTest");
         try {
             Optional<Path> latestFile = findLatestFile(directoryPath);
             String fileOutput = readMDFile(latestFile.get().toString());

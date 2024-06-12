@@ -1,16 +1,14 @@
 package CCWebcrawler;
 
 import CCWebcrawler.Structure.Link;
-import CCWebcrawler.Structure.Website;
-
-import java.io.IOException;
+import java.util.List;
 
 public interface CCWebCrawler {
 
     //command
-    void crawlPages() throws IOException;
+    void crawlPages();
 
     //Query
-    Link getResults() ;
+    List<Link> getResults() ;
 
 }

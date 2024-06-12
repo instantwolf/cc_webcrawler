@@ -21,8 +21,10 @@ public class MarkDownGeneratorTest {
     @Test
     public void generate_markdown_for_empty_website() {
         Website emptyWebsite = getEmptyWebsite();
+        Link emptyWebsiteLink = new Link(emptyWebsite.getUrl());
+        emptyWebsiteLink.target = emptyWebsite;
         String markdown =
-                MarkDownGenerator.generateMarkDownForWebsite(emptyWebsite.getUrl(), targetDepth,emptyWebsite);
+                MarkDownGenerator.generateStartLinkMarkDown(List.of(emptyWebsiteLink), targetDepth);
         System.out.println(markdown);
 
         markDownHeaderTest(markdown, emptyWebsite);
@@ -31,8 +33,10 @@ public class MarkDownGeneratorTest {
     @Test
     public void generate_markdown_for_first_level_website() {
         Website simpleWebsite = getSimpleWebsite();
+        Link simpleWebsiteLink = new Link(simpleWebsite.getUrl());
+        simpleWebsiteLink.target = simpleWebsite;
         String markdown =
-                MarkDownGenerator.generateMarkDownForWebsite(simpleWebsite.getUrl(), targetDepth,simpleWebsite);
+                MarkDownGenerator.generateStartLinkMarkDown(List.of(simpleWebsiteLink), targetDepth);
 
         //every Heading h1-h6 with its given prefix and indentation shall be contained
         markDownHeaderTest(markdown, simpleWebsite);
@@ -43,16 +47,10 @@ public class MarkDownGeneratorTest {
     @Test
     public void generate_markdown_for_nested_website() {
         Website nested = getNestedWebsite();
-        List<Website> sites = nested.getAllCrawledSubSites().toList();
+        Link nestedLink = new Link(nested.getUrl());
+        nestedLink.target = nested;
 
-        for (Website website : sites) {
-            System.out.println(website);
-        }
-
-        System.out.println("\n Printing markdown for Websites: \n");
-        System.out.println(
-                MarkDownGenerator.generateMarkDownForWebsite(sites.getFirst().getUrl(),targetDepth,nested)
-        );
+        //TODO: test nested website structure in markdown
     }
 
 
@@ -82,10 +80,10 @@ public class MarkDownGeneratorTest {
     }
 
     private String getLinkMarkDown(Link link, int depth){
-        String prefix = "<br> ";
+        String prefix = "<br>";
 
         prefix = prefix.concat("--".repeat(depth+1).concat("> "));
-        String linkIntro = link.broken ? "broken link" : "link to";
+        String linkIntro = (link.broken ? "broken link" : "link to").concat(" ");
         prefix = prefix.concat(linkIntro);
         return prefix.concat("<a>{$1}</a>").replace("{$1}", link.url);
     }

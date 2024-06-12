@@ -3,13 +3,13 @@ package CCWebcrawler;
 import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.Link;
 import CCWebcrawler.Structure.Website;
-import HtmlParser.JsoupParserAdapter;
+import HtmlParser.HtmlParserAdapter;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Crawler implements  CCWebCrawler{
+public class SerialCrawler implements  CCWebCrawler{
 
 
     private final Link startLink;
@@ -17,10 +17,10 @@ public class Crawler implements  CCWebCrawler{
     private int targetDepth = 0;
 
 
-    private final JsoupParserAdapter parser;
+    private final HtmlParserAdapter parser;
 
 
-    public Crawler(String startUrl, int targetDepth, JsoupParserAdapter parser){
+    public SerialCrawler(String startUrl, int targetDepth, HtmlParserAdapter parser){
         this.startLink = new Link(startUrl);
 
         if(targetDepth > 0)
@@ -29,8 +29,8 @@ public class Crawler implements  CCWebCrawler{
         this.parser = parser;
     }
 
-    public Link getResults(){
-        return this.startLink;
+    public List<Link> getResults(){
+        return List.of(this.startLink);
     }
 
 
@@ -51,10 +51,9 @@ public class Crawler implements  CCWebCrawler{
     }
 
 
-    private Set<Link> crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
+    private void crawlPagesAndSaveTargetIntoLinks(Set<Link> links, int depth){
         for(Link link : links)
             crawlPageAndModifyLinkState(link, depth);
-        return links;
     }
 
 

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-public class MarkDownWriter {
+public class MarkdownFileWriter {
 
     private static final String successMessagePrefix = "Markdown has been written to: ";
     private static final String failureMessagePrefix = "An error has occurred while writing the markdown to the file: ";

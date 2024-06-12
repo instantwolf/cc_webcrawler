@@ -1,6 +1,6 @@
 package HtmlParser.JsoupImplementation;
 
-public enum HtmlParserSelector {
+public enum JsoupHtmlParserSelector {
 
     LINK(false),
     HEADING(true);
@@ -12,7 +12,7 @@ public enum HtmlParserSelector {
     private static final String LINK_SELECTOR = "a[href]";
 
 
-    HtmlParserSelector(boolean type){
+    JsoupHtmlParserSelector(boolean type){
         this.selectsHeadings = (boolean)type;
     }
 

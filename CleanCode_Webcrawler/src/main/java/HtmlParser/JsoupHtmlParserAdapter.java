@@ -1,7 +1,7 @@
 package HtmlParser;
 
 
-import HtmlParser.JsoupImplementation.HtmlParser;
+import HtmlParser.JsoupImplementation.JsoupHtmlParser;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JsoupParserAdapter implements HtmlParserAdapter {
+public class JsoupHtmlParserAdapter implements HtmlParserAdapter {
 
 
     public ArrayList<String> getLinks(String website) throws IOException {
         ArrayList<String> result = new ArrayList<>();
 
-        HtmlParser.getLinks(website)
+        JsoupHtmlParser.getLinks(website)
                 .forEach(x -> result.add(convertHTMLElementToLink(x)));
 
         return result;
@@ -25,7 +25,7 @@ public class JsoupParserAdapter implements HtmlParserAdapter {
     public HashMap<String,Integer> getHeadings(String website) throws IOException {
         HashMap<String,Integer> result = new HashMap<>();
 
-        Elements e = HtmlParser.getHeadings(website);
+        Elements e = JsoupHtmlParser.getHeadings(website);
         for (Element element : e)
             result.putAll(convertHTMLElementToHeading(element));
 

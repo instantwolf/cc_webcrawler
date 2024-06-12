@@ -11,22 +11,22 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
-public class HtmlParser {
+public class JsoupHtmlParser {
 
 
     public static Elements getLinks(String website) throws IOException{
-        return getElements(website, List.of(HtmlParserSelector.LINK));
+        return getElements(website, List.of(JsoupHtmlParserSelector.LINK));
     }
 
     public static Elements getHeadings(String website) throws IOException{
-        return getElements(website, List.of(HtmlParserSelector.HEADING));
+        return getElements(website, List.of(JsoupHtmlParserSelector.HEADING));
     }
 
 
-    private static Elements getElements(String website, List<HtmlParserSelector> selectors) throws IOException, MalformedURLException, HttpStatusException, UnsupportedMimeTypeException, SocketTimeoutException {
+    private static Elements getElements(String website, List<JsoupHtmlParserSelector> selectors) throws IOException, MalformedURLException, HttpStatusException, UnsupportedMimeTypeException, SocketTimeoutException {
         Document document =  Jsoup.connect(website).get();
         Elements result = new Elements().empty();
-        for (HtmlParserSelector selector : selectors) {
+        for (JsoupHtmlParserSelector selector : selectors) {
             Elements e  = document.select(selector.toString());
             result.addAll(e);
         }
