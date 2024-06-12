@@ -17,7 +17,6 @@ public class HtmlHeading {
     }
 
     public HtmlHeading(int headingLevel, String content) {
-
         this.level = HtmlHeadingLevel.isValidHtmlHeadingLevel(headingLevel) ?
                 HtmlHeadingLevel.createFromInt(headingLevel) : HtmlHeadingLevel.getDefaultLevel();
         this.content = content;

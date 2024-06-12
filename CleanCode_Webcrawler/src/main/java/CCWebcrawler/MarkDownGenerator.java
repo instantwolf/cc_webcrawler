@@ -2,6 +2,7 @@ package CCWebcrawler;
 
 import CCWebcrawler.Structure.HtmlHeading;
 import CCWebcrawler.Structure.Link;
+import CCWebcrawler.Structure.Website;
 
 import java.util.List;
 
@@ -51,8 +52,9 @@ public class MarkDownGenerator {
         }
 
         if (link.visited()) {
-            result = result.concat(generateHeadingsMarkdown(link.target.getHeadings(), link.target.depth));
-            for (Link subLink : link.target.getLinks())
+            Website destination = link.getDestination();
+            result = result.concat(generateHeadingsMarkdown(destination.getHeadings(), destination.depth));
+            for (Link subLink : destination.getLinks())
                 result = result.concat(generateLinkMarkdown(subLink, currentLinkDepth + 1));
         }
 
@@ -85,7 +87,7 @@ public class MarkDownGenerator {
     }
 
     private static String insertValuesToLinkTemplate(String depthPrefix, Link link) {
-        String linkTextPrefix = link.broken ? "broken link" : "link to";
+        String linkTextPrefix = link.isBroken() ? "broken link" : "link to";
         return LINK_MARKDOWN_TEMPLATE.replace("{$1}", depthPrefix)
                 .replace("{$2}", linkTextPrefix)
                 .replace("{$3}", link.url);

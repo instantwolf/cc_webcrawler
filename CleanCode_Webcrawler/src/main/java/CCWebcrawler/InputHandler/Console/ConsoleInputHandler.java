@@ -23,14 +23,12 @@ public class ConsoleInputHandler implements InputHandler {
     @Override
     public List<String> handleURLInput() {
         String consoleInput = inputReader.readUrls();
-        boolean isValidInput = false;
-
         List<String> separatedUrls = separateUrls(consoleInput);
-        isValidInput = separatedUrls.stream().allMatch(inputValidator::isValidURL);
+        List<String> invalidURLs = separatedUrls.stream().filter(x -> !inputValidator.isValidURL(x)).toList();
 
-
-        if (!isValidInput) {
+        if (!invalidURLs.isEmpty()) {
             System.out.println(ConsoleInputHandlerTexts.INVALID_URL_RESPONSE);
+            System.out.println("Invalid arguments: " + String.join(", ", invalidURLs));
             return handleURLInput();
         }
 

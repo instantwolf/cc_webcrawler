@@ -27,8 +27,8 @@ public class Website {
     public Stream<Link> getLinksAtDepth(int depth) {
         if (depth > this.depth)
             return this.links.stream()
-                    .filter(x -> !x.broken && x.target != null)
-                    .flatMap(x -> x.target.getLinksAtDepth(depth));
+                    .filter(x -> !x.isBroken())
+                    .flatMap(x -> x.getDestination().getLinksAtDepth(depth));
         else return this.links.stream();
     }
 

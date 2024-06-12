@@ -48,7 +48,7 @@ public abstract class CCWebCrawler {
         crawlPagesAndSaveTargetIntoLinks(crawlSet, currentDepth);
 
         while (currentDepth < targetDepth) {
-            crawlSet = startLink.target.getLinksAtDepth(currentDepth).collect(Collectors.toSet());
+            crawlSet = startLink.getDestination().getLinksAtDepth(currentDepth).collect(Collectors.toSet());
             currentDepth++;
             crawlPagesAndSaveTargetIntoLinks(crawlSet, currentDepth);
         }
@@ -56,9 +56,10 @@ public abstract class CCWebCrawler {
 
     protected void crawlPageAndModifyLinkState(Link linkToCrawl, int depth) {
         try {
-            linkToCrawl.target = crawlPage(linkToCrawl.url, depth);
+            Website destination = crawlPage(linkToCrawl.url, depth);
+            linkToCrawl.setDestination(destination);
         } catch (IOException e) {
-            linkToCrawl.broken = true;
+            linkToCrawl.setBroken();
         }
     }
 

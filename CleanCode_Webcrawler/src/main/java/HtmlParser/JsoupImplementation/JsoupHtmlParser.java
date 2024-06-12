@@ -23,7 +23,7 @@ public class JsoupHtmlParser {
     }
 
 
-    private static Elements getElements(String website, List<JsoupHtmlParserSelector> selectors) throws IOException, MalformedURLException, HttpStatusException, UnsupportedMimeTypeException, SocketTimeoutException {
+    private static Elements getElements(String website, List<JsoupHtmlParserSelector> selectors) throws IOException {
         Document document = Jsoup.connect(website).get();
         Elements result = new Elements().empty();
         for (JsoupHtmlParserSelector selector : selectors) {

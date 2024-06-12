@@ -24,12 +24,11 @@ public class ConsoleInputReader implements InputReader {
 
     private static String readInputLine() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String var;
+        String var = "";
         try {
             var = reader.readLine();
         } catch (IOException e) {
             System.out.println(ConsoleInputHandlerTexts.ERROR_READING_INPUT);
-            throw new RuntimeException(e);
         }
         return var.trim();
     }
